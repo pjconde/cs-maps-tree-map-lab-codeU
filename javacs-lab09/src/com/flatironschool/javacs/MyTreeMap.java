@@ -73,19 +73,18 @@ public class MyTreeMap<K, V> implements Map<K, V> {
 		
 		// the actual search
         // TODO: Fill this in.
-        Node output = null;
         Node currNode = root;
         while (currNode != null) {
         	K currKey = currNode.key;
         	if (k.compareTo(currKey) == 0) {
-        		output = currNode;
+        		return currNode;
         	} else if (k.compareTo(currKey) > 0) {
         		currNode = currNode.right;
         	} else {
         		currNode = currNode.left;
         	}
         }
-        return output;
+        return null;
 	}
 
 	/**
@@ -104,8 +103,22 @@ public class MyTreeMap<K, V> implements Map<K, V> {
 
 	@Override
 	public boolean containsValue(Object target) {
-		// TODO
-		return false;
+		return containsVal(root, target);
+	}
+
+	private boolean containsVal(Node node, Object target) {
+		if (node == null) {
+			return false;
+		}
+		if (equals(node.value, target)) {
+			return true;
+		} else if (containsVal(node.left, target)) {
+			return true;
+		} else if (containsValnode.right, target) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	@Override
@@ -131,7 +144,17 @@ public class MyTreeMap<K, V> implements Map<K, V> {
 	public Set<K> keySet() {
 		Set<K> set = new LinkedHashSet<K>();
         // TODO: Fill this in.
-		return set;
+		return inOrder(root, set);
+	}
+
+	private Set<K> inOrder(Node node, Set<K> output) {
+		if (node == null) {
+			return 
+		}
+		// Inorder: Left, node, right
+		inOrder(node.left, output);
+		output.add(node);
+		inOrder(node.right, output);
 	}
 
 	@Override
@@ -147,8 +170,14 @@ public class MyTreeMap<K, V> implements Map<K, V> {
 		return putHelper(root, key, value);
 	}
 
+	// Adding to BST
+	// Find where it goes, if it already exists then replace val
+	// if not add to it. WILL NEED COMPARABLE
+	// It is probably inefficient to use find node
 	private V putHelper(Node node, K key, V value) {
         // TODO: Fill this in.
+        @SuppressWarnings("unchecked")
+        Comparable<? super K> k = (Comparable<? super K>) key;
         return null;
 	}
 
