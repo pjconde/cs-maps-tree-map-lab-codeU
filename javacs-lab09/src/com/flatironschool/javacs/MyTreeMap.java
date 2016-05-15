@@ -114,7 +114,7 @@ public class MyTreeMap<K, V> implements Map<K, V> {
 			return true;
 		} else if (containsVal(node.left, target)) {
 			return true;
-		} else if (containsValnode.right, target) {
+		} else if (containsVal(node.right, target)) {
 			return true;
 		} else {
 			return false;
@@ -149,12 +149,13 @@ public class MyTreeMap<K, V> implements Map<K, V> {
 
 	private Set<K> inOrder(Node node, Set<K> output) {
 		if (node == null) {
-			return 
+			return output;
 		}
 		// Inorder: Left, node, right
 		inOrder(node.left, output);
-		output.add(node);
+		output.add(node.key);
 		inOrder(node.right, output);
+		return output;
 	}
 
 	@Override
@@ -178,7 +179,28 @@ public class MyTreeMap<K, V> implements Map<K, V> {
         // TODO: Fill this in.
         @SuppressWarnings("unchecked")
         Comparable<? super K> k = (Comparable<? super K>) key;
-        return null;
+        int compare = k.compareTo(node.key);
+        if (compare > 0) {
+        	if (node.right == null) {
+        		node.right = new Node(key, value);
+        		size++;
+        		return null;
+        	} else {
+        		return putHelper(node.right, key, value);
+        	}
+        } else if (compare < 0) {
+        	if (node.left == null) {
+        		node.left = new Node(key, value);
+        		size++;
+        		return null;
+        	} else {
+        		return putHelper(node.left, key, value);
+        	}
+        } else {
+        	V oldVal = node.value;
+        	node.value = value;
+        	return value;
+        }
 	}
 
 	@Override
